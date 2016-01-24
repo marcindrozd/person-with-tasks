@@ -5,13 +5,12 @@ class Person
     @tasks = []
   end
 
-  def add_task(opts = {})
-    tasks << Task.new(name: opts[:name], completed: opts[:completed])
+  def add_task(task)
+    tasks << task
   end
 
-  def display_completed_tasks
-    completed = tasks.select { |t| t.completed }
-    completed.each { |task| puts task }
+  def completed_tasks
+    tasks.select { |t| t.completed }
   end
 end
 
@@ -19,7 +18,7 @@ class Task
   attr_reader :name, :completed
 
   def initialize(opts = {})
-    @name = opts[:name]
+    @name = opts[:name] || 'Example Task'
     @completed = opts[:completed] || false
   end
 
@@ -31,11 +30,11 @@ end
 person = Person.new
 
 3.times do |i|
-  person.add_task(name: "Task #{i + 1}", completed: true)
+  person.add_task(Task.new(name: "Task #{i + 1}", completed: true))
 end
 
 3.times do |i|
-  person.add_task(name: "Task #{i + 4}", completed: false)
+  person.add_task(Task.new(name: "Task #{i + 4}", completed: false))
 end
 
-person.display_completed_tasks
+person.completed_tasks.each { |task| puts task }
